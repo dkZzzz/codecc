@@ -1,7 +1,9 @@
 package main
 
 import (
-	report "github.com/dkZzzz/codecc/report"
+	"github.com/dkZzzz/codecc/chat"
+	"github.com/dkZzzz/codecc/config"
+	"github.com/dkZzzz/codecc/report"
 )
 
 func main() {
@@ -17,7 +19,14 @@ func main() {
 	// for k, v := range data {
 	// 	fmt.Println(k, v)
 	// }
+	config, err := config.LoadConfig()
+	if err != nil {
+		panic(err)
+	}
 	r := report.GenerateReport(name, projectKey, branch)
-
 	r.Print()
+	answer := chat.Optimize(config.OpenAISecretKey)
+	for _, v := range answer {
+		println(v)
+	}
 }
